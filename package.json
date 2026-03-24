@@ -12,7 +12,9 @@
 	"license": "MIT",
 	"homepage": "https://github.com/fredfrom/n8n-nodes-loops",
 	"author": {
-		"name": "Friedemann Frommelt"
+		"name": "Friedemann Frommelt",
+		"email": "friedemannfrommelt1996@gmail.com"
+
 	},
 	"repository": {
 		"type": "git",
