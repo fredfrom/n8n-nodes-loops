@@ -1,0 +1,13 @@
+{
+	"node": "n8n-nodes-loops.loops",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Marketing & Growth"],
+	"resources": {
+		"primaryDocumentation": [
+			{
+				"url": "https://loops.so/docs/api-reference/intro"
+			}
+		]
+	}
+}

@@ -1,0 +1,141 @@
+{
+	"id": "loops-test-suite",
+	"name": "Loops Node - Full Test Suite",
+	"nodes": [
+		{
+			"parameters": {},
+			"id": "a0000000-0000-0000-0000-000000000001",
+			"name": "Run Tests",
+			"type": "n8n-nodes-base.manualTrigger",
+			"typeVersion": 1,
+			"position": [0, 400]
+		},
+		{
+			"parameters": { "resource": "apiKey", "operation": "test" },
+			"id": "a0000000-0000-0000-0000-000000000002",
+			"name": "Test API Key",
+			"type": "n8n-nodes-loops.loops",
+			"typeVersion": 1,
+			"position": [300, -200],
+			"credentials": { "loopsApi": { "id": "REPLACE", "name": "Loops account" } }
+		},
+		{
+			"parameters": { "resource": "mailingList", "operation": "list" },
+			"id": "a0000000-0000-0000-0000-000000000010",
+			"name": "List Mailing Lists",
+			"type": "n8n-nodes-loops.loops",
+			"typeVersion": 1,
+			"position": [300, 0],
+			"credentials": { "loopsApi": { "id": "REPLACE", "name": "Loops account" } }
+		},
+		{
+			"parameters": { "resource": "contactProperty", "operation": "list", "filter": "all" },
+			"id": "a0000000-0000-0000-0000-000000000020",
+			"name": "List Properties",
+			"type": "n8n-nodes-loops.loops",
+			"typeVersion": 1,
+			"position": [300, 200],
+			"credentials": { "loopsApi": { "id": "REPLACE", "name": "Loops account" } }
+		},
+		{
+			"parameters": { "resource": "transactionalEmail", "operation": "list", "perPage": 10 },
+			"id": "a0000000-0000-0000-0000-000000000030",
+			"name": "List Transactional",
+			"type": "n8n-nodes-loops.loops",
+			"typeVersion": 1,
+			"position": [300, 400],
+			"credentials": { "loopsApi": { "id": "REPLACE", "name": "Loops account" } }
+		},
+		{
+			"parameters": { "resource": "dedicatedSendingIp", "operation": "list" },
+			"id": "a0000000-0000-0000-0000-000000000035",
+			"name": "List Sending IPs",
+			"type": "n8n-nodes-loops.loops",
+			"typeVersion": 1,
+			"position": [300, 600],
+			"credentials": { "loopsApi": { "id": "REPLACE", "name": "Loops account" } }
+		},
+		{
+			"parameters": {
+				"resource": "contact",
+				"operation": "create",
+				"email": "n8n-test-verify@example.com",
+				"additionalFields": { "firstName": "N8NTest", "lastName": "AutoVerify", "subscribed": true, "source": "n8n-test" }
+			},
+			"id": "a0000000-0000-0000-0000-000000000040",
+			"name": "Create Contact",
+			"type": "n8n-nodes-loops.loops",
+			"typeVersion": 1,
+			"position": [300, 800],
+			"credentials": { "loopsApi": { "id": "REPLACE", "name": "Loops account" } }
+		},
+		{
+			"parameters": { "resource": "event", "operation": "send", "eventName": "n8n_test_event", "email": "n8n-test-verify@example.com" },
+			"id": "a0000000-0000-0000-0000-000000000050",
+			"name": "Send Event",
+			"type": "n8n-nodes-loops.loops",
+			"typeVersion": 1,
+			"position": [600, 700],
+			"credentials": { "loopsApi": { "id": "REPLACE", "name": "Loops account" } }
+		},
+		{
+			"parameters": { "resource": "contact", "operation": "update", "email": "n8n-test-verify@example.com", "additionalFields": { "firstName": "Updated" } },
+			"id": "a0000000-0000-0000-0000-000000000060",
+			"name": "Update Contact",
+			"type": "n8n-nodes-loops.loops",
+			"typeVersion": 1,
+			"position": [600, 900],
+			"credentials": { "loopsApi": { "id": "REPLACE", "name": "Loops account" } }
+		},
+		{
+			"parameters": { "resource": "contact", "operation": "find", "email": "n8n-test-verify@example.com" },
+			"id": "a0000000-0000-0000-0000-000000000070",
+			"name": "Find After Update",
+			"type": "n8n-nodes-loops.loops",
+			"typeVersion": 1,
+			"position": [900, 800],
+			"credentials": { "loopsApi": { "id": "REPLACE", "name": "Loops account" } }
+		},
+		{
+			"parameters": { "resource": "contact", "operation": "delete", "email": "n8n-test-verify@example.com" },
+			"id": "a0000000-0000-0000-0000-000000000080",
+			"name": "Delete Contact",
+			"type": "n8n-nodes-loops.loops",
+			"typeVersion": 1,
+			"position": [1200, 800],
+			"credentials": { "loopsApi": { "id": "REPLACE", "name": "Loops account" } }
+		},
+		{
+			"parameters": { "resource": "contact", "operation": "find", "email": "n8n-test-verify@example.com" },
+			"id": "a0000000-0000-0000-0000-000000000090",
+			"name": "Find After Delete",
+			"type": "n8n-nodes-loops.loops",
+			"typeVersion": 1,
+			"position": [1500, 800],
+			"credentials": { "loopsApi": { "id": "REPLACE", "name": "Loops account" } }
+		}
+	],
+	"connections": {
+		"Run Tests": {
+			"main": [[
+				{ "node": "Test API Key", "type": "main", "index": 0 },
+				{ "node": "List Mailing Lists", "type": "main", "index": 0 },
+				{ "node": "List Properties", "type": "main", "index": 0 },
+				{ "node": "List Transactional", "type": "main", "index": 0 },
+				{ "node": "List Sending IPs", "type": "main", "index": 0 },
+				{ "node": "Create Contact", "type": "main", "index": 0 }
+			]]
+		},
+		"Create Contact": {
+			"main": [[
+				{ "node": "Send Event", "type": "main", "index": 0 },
+				{ "node": "Update Contact", "type": "main", "index": 0 }
+			]]
+		},
+		"Send Event": { "main": [[{ "node": "Find After Update", "type": "main", "index": 0 }]] },
+		"Update Contact": { "main": [[{ "node": "Find After Update", "type": "main", "index": 0 }]] },
+		"Find After Update": { "main": [[{ "node": "Delete Contact", "type": "main", "index": 0 }]] },
+		"Delete Contact": { "main": [[{ "node": "Find After Delete", "type": "main", "index": 0 }]] }
+	},
+	"settings": { "executionOrder": "v1" }
+}

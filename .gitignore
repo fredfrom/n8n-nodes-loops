@@ -1,0 +1,12 @@
+node_modules/
+dist/
+*.tsbuildinfo
+*.tgz
+.env
+.env.*
+CLAUDE.md
+PROMPT.md
+.claude/
+.gsd/
+test/setup-remote.sh
+test/docker-compose.yml
