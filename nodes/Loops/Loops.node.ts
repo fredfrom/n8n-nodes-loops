@@ -196,9 +196,9 @@ async function executeTransactionalEmail(
 
 		const response = (await loopsApiRequest.call(ctx, 'GET', '/transactional', {}, qs)) as JsonObject;
 		for (const item of (response.data as JsonObject[] | undefined) ?? []) {
-			returnData.push({ json: item });
+			returnData.push({ json: item, pairedItem: { item: i } });
 		}
-		if (response.pagination) returnData.push({ json: { pagination: response.pagination } });
+		if (response.pagination) returnData.push({ json: { pagination: response.pagination }, pairedItem: { item: i } });
 		return undefined;
 	}
 
@@ -695,7 +695,7 @@ export class Loops implements INodeType {
 					const ips = await loopsApiRequest.call(this, 'GET', '/dedicated-sending-ips');
 					if (Array.isArray(ips)) {
 						for (const ip of ips) {
-							returnData.push({ json: typeof ip === 'string' ? { ip } : ip });
+							returnData.push({ json: typeof ip === 'string' ? { ip } : ip, pairedItem: { item: i } });
 						}
 					}
 					continue;
@@ -713,15 +713,15 @@ export class Loops implements INodeType {
 				if (responseData !== undefined) {
 					if (Array.isArray(responseData)) {
 						for (const item of responseData) {
-							returnData.push({ json: item });
+							returnData.push({ json: item, pairedItem: { item: i } });
 						}
 					} else {
-						returnData.push({ json: responseData });
+						returnData.push({ json: responseData, pairedItem: { item: i } });
 					}
 				}
 			} catch (error) {
 				if (this.continueOnFail()) {
-					returnData.push({ json: { error: (error as Error).message } });
+					returnData.push({ json: { error: (error as Error).message }, pairedItem: { item: i } });
 					continue;
 				}
 				throw error;

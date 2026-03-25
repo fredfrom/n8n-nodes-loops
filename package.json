@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-loops",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "n8n community node for Loops (loops.so) — manage contacts, send events, and transactional emails",
 	"keywords": [
 		"n8n-community-node-package",
