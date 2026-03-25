@@ -26,7 +26,7 @@ describe('LoopsTrigger Node', () => {
 			expect(trigger.description.name).toBe('loopsTrigger');
 			expect(trigger.description.group).toEqual(['trigger']);
 			expect(trigger.description.inputs).toEqual([]);
-			expect(trigger.description.usableAsTool).toBe(true);
+			expect(trigger.description.usableAsTool).toBeUndefined();
 		});
 
 		it('should define 17 webhook event types', () => {
