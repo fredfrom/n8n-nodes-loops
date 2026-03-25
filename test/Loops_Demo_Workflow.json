@@ -1,0 +1,132 @@
+{
+	"name": "Loops Node — Full Demo",
+	"nodes": [
+		{"parameters":{"content":"## 1. API Key — Test\nClick ▶ to validate credential.\nShows `success: true` and team name.","width":660,"height":80},"id":"n01","name":"Note 1","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,-820]},
+		{"parameters":{},"id":"t01","name":"▶ 1 Test API Key","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,-700]},
+		{"parameters":{"resource":"apiKey","operation":"test"},"id":"a01","name":"API Key → Test","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[300,-700],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+
+		{"parameters":{"content":"## 2. Contact — Create\nCreates Alice Smith → Find proves she exists.","width":660,"height":60},"id":"n02","name":"Note 2","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,-580]},
+		{"parameters":{},"id":"t02","name":"▶ 2 Create Contact","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,-480]},
+		{"parameters":{"resource":"contact","operation":"create","email":"demo-create@example.com","additionalFields":{"firstName":"Alice","lastName":"Smith","subscribed":true,"source":"n8n-demo"}},"id":"a02a","name":"Create Alice Smith","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[300,-480],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+		{"parameters":{"resource":"contact","operation":"find","email":"demo-create@example.com"},"id":"a02b","name":"Verify: Find Alice","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[600,-480],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+
+		{"parameters":{"content":"## 3. Contact — Find\nFinds Alice by email. Shows full contact object.","width":660,"height":60},"id":"n03","name":"Note 3","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,-380]},
+		{"parameters":{},"id":"t03","name":"▶ 3 Find Contact","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,-280]},
+		{"parameters":{"resource":"contact","operation":"find","email":"demo-create@example.com"},"id":"a03","name":"Find Alice by email","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[300,-280],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+
+		{"parameters":{"content":"## 4. Contact — Update\nChanges Alice → \"Updated Alice\" + adds userGroup.\nFind proves the change.","width":660,"height":60},"id":"n04","name":"Note 4","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,-180]},
+		{"parameters":{},"id":"t04","name":"▶ 4 Update Contact","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,-80]},
+		{"parameters":{"resource":"contact","operation":"update","email":"demo-create@example.com","additionalFields":{"firstName":"Updated Alice","userGroup":"vip"}},"id":"a04a","name":"Update Alice name+group","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[300,-80],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+		{"parameters":{"resource":"contact","operation":"find","email":"demo-create@example.com"},"id":"a04b","name":"Verify: name changed","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[600,-80],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+
+		{"parameters":{"content":"## 5. Contact — Delete\nDeletes Alice → Find returns empty array.","width":660,"height":60},"id":"n05","name":"Note 5","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,20]},
+		{"parameters":{},"id":"t05","name":"▶ 5 Delete Contact","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,120]},
+		{"parameters":{"resource":"contact","operation":"delete","email":"demo-create@example.com"},"id":"a05a","name":"Delete Alice","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[300,120],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+		{"parameters":{"resource":"contact","operation":"find","email":"demo-create@example.com"},"id":"a05b","name":"Verify: empty result","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[600,120],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+
+		{"parameters":{"content":"## 6. Event — Send\nCreates Bob → sends event with properties → verifies → cleans up.","width":660,"height":60},"id":"n06","name":"Note 6","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,220]},
+		{"parameters":{},"id":"t06","name":"▶ 6 Send Event","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,320]},
+		{"parameters":{"resource":"contact","operation":"create","email":"event-demo@example.com","additionalFields":{"firstName":"Bob","lastName":"Events"}},"id":"a06a","name":"Setup: Create Bob","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[300,320],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+		{"parameters":{"resource":"event","operation":"send","eventName":"demo_signup","email":"event-demo@example.com","eventProperties":{"property":[{"key":"plan","value":"pro"},{"key":"referrer","value":"n8n-automation"}]}},"id":"a06b","name":"Send demo_signup event","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[600,320],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+		{"parameters":{"resource":"contact","operation":"find","email":"event-demo@example.com"},"id":"a06c","name":"Verify: Bob exists","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[900,320],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+		{"parameters":{"resource":"contact","operation":"delete","email":"event-demo@example.com"},"id":"a06d","name":"Cleanup: Delete Bob","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[1200,320],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+
+		{"parameters":{"content":"## 7. Contact Property — List All\nLists all properties (built-in + custom).","width":660,"height":60},"id":"n07a","name":"Note 7a","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,420]},
+		{"parameters":{},"id":"t07a","name":"▶ 7a List All Properties","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,520]},
+		{"parameters":{"resource":"contactProperty","operation":"list","filter":"all"},"id":"a07a","name":"List all properties","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[300,520],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+
+		{"parameters":{"content":"## 7b. Contact Property — List Custom Only\nFilters to only show custom properties.","width":660,"height":60},"id":"n07b","name":"Note 7b","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,620]},
+		{"parameters":{},"id":"t07b","name":"▶ 7b List Custom Properties","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,720]},
+		{"parameters":{"resource":"contactProperty","operation":"list","filter":"custom"},"id":"a07b","name":"List custom only","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[300,720],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+
+		{"parameters":{"content":"## 7c. Contact Property — Create\nCreates \"demoScore\" (number) → lists custom to prove it appeared.","width":660,"height":60},"id":"n07c","name":"Note 7c","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,820]},
+		{"parameters":{},"id":"t07c","name":"▶ 7c Create Property","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,920]},
+		{"parameters":{"resource":"contactProperty","operation":"create","propertyName":"demoScore","label":"Demo Score","propertyType":"number"},"id":"a07c1","name":"Create prop: demoScore","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[300,920],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+		{"parameters":{"resource":"contactProperty","operation":"list","filter":"custom"},"id":"a07c2","name":"Verify: demoScore in list","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[600,920],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+
+		{"parameters":{"content":"## 8. Mailing List — List\nLists all mailing lists from Loops.","width":660,"height":60},"id":"n08","name":"Note 8","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,1020]},
+		{"parameters":{},"id":"t08","name":"▶ 8 List Mailing Lists","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,1120]},
+		{"parameters":{"resource":"mailingList","operation":"list"},"id":"a08","name":"Mailing List → List","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[300,1120],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+
+		{"parameters":{"content":"## 9. Transactional Email — List\nLists published transactional templates with pagination.","width":660,"height":60},"id":"n09","name":"Note 9","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,1220]},
+		{"parameters":{},"id":"t09","name":"▶ 9 List Transactional Emails","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,1320]},
+		{"parameters":{"resource":"transactionalEmail","operation":"list","perPage":10},"id":"a09","name":"Transactional → List","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[300,1320],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+
+		{"parameters":{"content":"## 10. Dedicated Sending IP — List\nRetrieves dedicated IPs for whitelisting.","width":660,"height":60},"id":"n10","name":"Note 10","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,1420]},
+		{"parameters":{},"id":"t10","name":"▶ 10 List Sending IPs","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,1520]},
+		{"parameters":{"resource":"dedicatedSendingIp","operation":"list"},"id":"a10","name":"Sending IP → List","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[300,1520],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+
+		{"parameters":{"content":"## TRIGGER DEMOS\nActivate this workflow, configure webhook URLs in Loops dashboard.\nEach trigger below listens for ONE specific event.\nUse the ▶ Fire buttons to create/delete contacts and watch each trigger light up.\n\n**Setup:** Copy each trigger's webhook URL → paste in Loops Settings → Webhooks.","width":1460,"height":120},"id":"nT","name":"Note Triggers","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,1680]},
+
+		{"parameters":{"content":"## T1. Trigger: contact.created\nFires when a contact is created.","width":660,"height":60},"id":"nT1","name":"Note T1","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,1840]},
+		{"parameters":{"events":["contact.created"]},"id":"trgCreated","name":"Trigger: contact.created","type":"n8n-nodes-loops.loopsTrigger","typeVersion":1,"position":[0,1940],"credentials":{"loopsWebhookApi":{"id":"REPLACE","name":"Loops Webhook"}}},
+		{"parameters":{"assignments":{"assignments":[{"id":"c1","name":"event","value":"={{ $json.eventName }}","type":"string"},{"id":"c2","name":"email","value":"={{ $json.contactIdentity?.email || 'N/A' }}","type":"string"},{"id":"c3","name":"result","value":"contact.created received!","type":"string"}]}},"id":"fmtCreated","name":"Result: contact.created","type":"n8n-nodes-base.set","typeVersion":3.4,"position":[300,1940]},
+
+		{"parameters":{"content":"## T2. Trigger: contact.deleted\nFires when a contact is deleted.","width":660,"height":60},"id":"nT2","name":"Note T2","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,2060]},
+		{"parameters":{"events":["contact.deleted"]},"id":"trgDeleted","name":"Trigger: contact.deleted","type":"n8n-nodes-loops.loopsTrigger","typeVersion":1,"position":[0,2160],"credentials":{"loopsWebhookApi":{"id":"REPLACE","name":"Loops Webhook"}}},
+		{"parameters":{"assignments":{"assignments":[{"id":"d1","name":"event","value":"={{ $json.eventName }}","type":"string"},{"id":"d2","name":"email","value":"={{ $json.contactIdentity?.email || 'N/A' }}","type":"string"},{"id":"d3","name":"result","value":"contact.deleted received!","type":"string"}]}},"id":"fmtDeleted","name":"Result: contact.deleted","type":"n8n-nodes-base.set","typeVersion":3.4,"position":[300,2160]},
+
+		{"parameters":{"content":"## T3. Trigger: contact.unsubscribed\nFires when a contact unsubscribes.","width":660,"height":60},"id":"nT3","name":"Note T3","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,2280]},
+		{"parameters":{"events":["contact.unsubscribed"]},"id":"trgUnsub","name":"Trigger: contact.unsubscribed","type":"n8n-nodes-loops.loopsTrigger","typeVersion":1,"position":[0,2380],"credentials":{"loopsWebhookApi":{"id":"REPLACE","name":"Loops Webhook"}}},
+		{"parameters":{"assignments":{"assignments":[{"id":"u1","name":"event","value":"={{ $json.eventName }}","type":"string"},{"id":"u2","name":"email","value":"={{ $json.contactIdentity?.email || 'N/A' }}","type":"string"},{"id":"u3","name":"result","value":"contact.unsubscribed received!","type":"string"}]}},"id":"fmtUnsub","name":"Result: contact.unsubscribed","type":"n8n-nodes-base.set","typeVersion":3.4,"position":[300,2380]},
+
+		{"parameters":{"content":"## T4. Trigger: email.delivered\nFires when an email is delivered.","width":660,"height":60},"id":"nT4","name":"Note T4","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,2500]},
+		{"parameters":{"events":["email.delivered"]},"id":"trgDelivered","name":"Trigger: email.delivered","type":"n8n-nodes-loops.loopsTrigger","typeVersion":1,"position":[0,2600],"credentials":{"loopsWebhookApi":{"id":"REPLACE","name":"Loops Webhook"}}},
+		{"parameters":{"assignments":{"assignments":[{"id":"e1","name":"event","value":"={{ $json.eventName }}","type":"string"},{"id":"e2","name":"email","value":"={{ $json.contactIdentity?.email || 'N/A' }}","type":"string"},{"id":"e3","name":"result","value":"email.delivered received!","type":"string"}]}},"id":"fmtDelivered","name":"Result: email.delivered","type":"n8n-nodes-base.set","typeVersion":3.4,"position":[300,2600]},
+
+		{"parameters":{"content":"## T5. Trigger: email.opened\nFires when a recipient opens an email.","width":660,"height":60},"id":"nT5","name":"Note T5","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,2720]},
+		{"parameters":{"events":["email.opened"]},"id":"trgOpened","name":"Trigger: email.opened","type":"n8n-nodes-loops.loopsTrigger","typeVersion":1,"position":[0,2820],"credentials":{"loopsWebhookApi":{"id":"REPLACE","name":"Loops Webhook"}}},
+		{"parameters":{"assignments":{"assignments":[{"id":"o1","name":"event","value":"={{ $json.eventName }}","type":"string"},{"id":"o2","name":"email","value":"={{ $json.contactIdentity?.email || 'N/A' }}","type":"string"},{"id":"o3","name":"result","value":"email.opened received!","type":"string"}]}},"id":"fmtOpened","name":"Result: email.opened","type":"n8n-nodes-base.set","typeVersion":3.4,"position":[300,2820]},
+
+		{"parameters":{"content":"## T6. Trigger: email.clicked\nFires when a recipient clicks a link.","width":660,"height":60},"id":"nT6","name":"Note T6","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,2940]},
+		{"parameters":{"events":["email.clicked"]},"id":"trgClicked","name":"Trigger: email.clicked","type":"n8n-nodes-loops.loopsTrigger","typeVersion":1,"position":[0,3040],"credentials":{"loopsWebhookApi":{"id":"REPLACE","name":"Loops Webhook"}}},
+		{"parameters":{"assignments":{"assignments":[{"id":"k1","name":"event","value":"={{ $json.eventName }}","type":"string"},{"id":"k2","name":"email","value":"={{ $json.contactIdentity?.email || 'N/A' }}","type":"string"},{"id":"k3","name":"result","value":"email.clicked received!","type":"string"}]}},"id":"fmtClicked","name":"Result: email.clicked","type":"n8n-nodes-base.set","typeVersion":3.4,"position":[300,3040]},
+
+		{"parameters":{"content":"## ▶ Fire: Create contact (triggers T1)\nCreates a contact → fires contact.created webhook.","width":660,"height":60},"id":"nF1","name":"Note F1","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,3200]},
+		{"parameters":{},"id":"tF1","name":"▶ Fire: contact.created","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,3300]},
+		{"parameters":{"resource":"contact","operation":"create","email":"trigger-test@example.com","additionalFields":{"firstName":"Trigger","lastName":"Test","source":"webhook-demo"}},"id":"aF1","name":"Create contact → fires T1","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[300,3300],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+
+		{"parameters":{"content":"## ▶ Fire: Delete contact (triggers T2)\nDeletes the test contact → fires contact.deleted webhook.","width":660,"height":60},"id":"nF2","name":"Note F2","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,3400]},
+		{"parameters":{},"id":"tF2","name":"▶ Fire: contact.deleted","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,3500]},
+		{"parameters":{"resource":"contact","operation":"delete","email":"trigger-test@example.com"},"id":"aF2","name":"Delete contact → fires T2","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[300,3500],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+
+		{"parameters":{"content":"## ▶ Fire: Unsubscribe contact (triggers T3)\nUpdates contact subscribed=false → fires contact.unsubscribed webhook.\nCreates a fresh contact first.","width":660,"height":60},"id":"nF3","name":"Note F3","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-60,3600]},
+		{"parameters":{},"id":"tF3","name":"▶ Fire: contact.unsubscribed","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,3700]},
+		{"parameters":{"resource":"contact","operation":"create","email":"unsub-test@example.com","additionalFields":{"firstName":"Unsub","lastName":"Test","subscribed":true}},"id":"aF3a","name":"Create subscribed contact","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[300,3700],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+		{"parameters":{"resource":"contact","operation":"update","email":"unsub-test@example.com","additionalFields":{"subscribed":false}},"id":"aF3b","name":"Unsubscribe → fires T3","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[600,3700],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}},
+		{"parameters":{"resource":"contact","operation":"delete","email":"unsub-test@example.com"},"id":"aF3c","name":"Cleanup unsub contact","type":"n8n-nodes-loops.loops","typeVersion":1,"position":[900,3700],"credentials":{"loopsApi":{"id":"REPLACE","name":"Loops account"}}}
+	],
+	"connections": {
+		"▶ 1 Test API Key":{"main":[[{"node":"API Key → Test","type":"main","index":0}]]},
+		"▶ 2 Create Contact":{"main":[[{"node":"Create Alice Smith","type":"main","index":0}]]},
+		"Create Alice Smith":{"main":[[{"node":"Verify: Find Alice","type":"main","index":0}]]},
+		"▶ 3 Find Contact":{"main":[[{"node":"Find Alice by email","type":"main","index":0}]]},
+		"▶ 4 Update Contact":{"main":[[{"node":"Update Alice name+group","type":"main","index":0}]]},
+		"Update Alice name+group":{"main":[[{"node":"Verify: name changed","type":"main","index":0}]]},
+		"▶ 5 Delete Contact":{"main":[[{"node":"Delete Alice","type":"main","index":0}]]},
+		"Delete Alice":{"main":[[{"node":"Verify: empty result","type":"main","index":0}]]},
+		"▶ 6 Send Event":{"main":[[{"node":"Setup: Create Bob","type":"main","index":0}]]},
+		"Setup: Create Bob":{"main":[[{"node":"Send demo_signup event","type":"main","index":0}]]},
+		"Send demo_signup event":{"main":[[{"node":"Verify: Bob exists","type":"main","index":0}]]},
+		"Verify: Bob exists":{"main":[[{"node":"Cleanup: Delete Bob","type":"main","index":0}]]},
+		"▶ 7a List All Properties":{"main":[[{"node":"List all properties","type":"main","index":0}]]},
+		"▶ 7b List Custom Properties":{"main":[[{"node":"List custom only","type":"main","index":0}]]},
+		"▶ 7c Create Property":{"main":[[{"node":"Create prop: demoScore","type":"main","index":0}]]},
+		"Create prop: demoScore":{"main":[[{"node":"Verify: demoScore in list","type":"main","index":0}]]},
+		"▶ 8 List Mailing Lists":{"main":[[{"node":"Mailing List → List","type":"main","index":0}]]},
+		"▶ 9 List Transactional Emails":{"main":[[{"node":"Transactional → List","type":"main","index":0}]]},
+		"▶ 10 List Sending IPs":{"main":[[{"node":"Sending IP → List","type":"main","index":0}]]},
+		"Trigger: contact.created":{"main":[[{"node":"Result: contact.created","type":"main","index":0}]]},
+		"Trigger: contact.deleted":{"main":[[{"node":"Result: contact.deleted","type":"main","index":0}]]},
+		"Trigger: contact.unsubscribed":{"main":[[{"node":"Result: contact.unsubscribed","type":"main","index":0}]]},
+		"Trigger: email.delivered":{"main":[[{"node":"Result: email.delivered","type":"main","index":0}]]},
+		"Trigger: email.opened":{"main":[[{"node":"Result: email.opened","type":"main","index":0}]]},
+		"Trigger: email.clicked":{"main":[[{"node":"Result: email.clicked","type":"main","index":0}]]},
+		"▶ Fire: contact.created":{"main":[[{"node":"Create contact → fires T1","type":"main","index":0}]]},
+		"▶ Fire: contact.deleted":{"main":[[{"node":"Delete contact → fires T2","type":"main","index":0}]]},
+		"▶ Fire: contact.unsubscribed":{"main":[[{"node":"Create subscribed contact","type":"main","index":0}]]},
+		"Create subscribed contact":{"main":[[{"node":"Unsubscribe → fires T3","type":"main","index":0}]]},
+		"Unsubscribe → fires T3":{"main":[[{"node":"Cleanup unsub contact","type":"main","index":0}]]}
+	},
+	"settings":{"executionOrder":"v1"}
+}
