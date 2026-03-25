@@ -64,6 +64,7 @@ export class LoopsTrigger implements INodeType {
 		defaults: { name: 'Loops Trigger' },
 		inputs: [],
 		outputs: [NodeConnectionTypes.Main],
+		usableAsTool: false,
 		credentials: [{ name: 'loopsWebhookApi', required: true }],
 		webhooks: [
 			{
