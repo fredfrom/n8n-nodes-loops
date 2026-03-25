@@ -56,6 +56,7 @@ function verifySignature(
 	});
 }
 
+// eslint-disable-next-line @n8n/community-nodes/node-usable-as-tool -- trigger nodes cannot be invoked as tools (see n8n PR #24854)
 export class LoopsTrigger implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Loops Trigger',
@@ -68,7 +69,6 @@ export class LoopsTrigger implements INodeType {
 		defaults: { name: 'Loops Trigger' },
 		inputs: [],
 		outputs: [NodeConnectionTypes.Main],
-		usableAsTool: true,
 		credentials: [{ name: 'loopsWebhookApi', required: true, testedBy: 'loopsWebhookApiTest' }],
 		webhooks: [
 			{
@@ -114,15 +114,14 @@ export class LoopsTrigger implements INodeType {
 					};
 				}
 				const stripped = signingSecret.replace(/^whsec_/, '');
-				try {
-					const buf = Buffer.from(stripped, 'base64');
-					if (buf.length === 0) {
-						return { status: 'Error', message: 'Signing secret is empty after base64 decoding' };
-					}
-					return { status: 'OK', message: 'Signing secret format is valid' };
-				} catch {
-					return { status: 'Error', message: 'Signing secret is not valid base64' };
+				if (!/^[A-Za-z0-9+/]*={0,2}$/.test(stripped) || stripped.length === 0) {
+					return { status: 'Error', message: 'Signing secret is not valid base64 (expected whsec_ prefix followed by base64)' };
 				}
+				const buf = Buffer.from(stripped, 'base64');
+				if (buf.length === 0) {
+					return { status: 'Error', message: 'Signing secret is empty after base64 decoding' };
+				}
+				return { status: 'OK', message: 'Signing secret format is valid' };
 			},
 		},
 	};
