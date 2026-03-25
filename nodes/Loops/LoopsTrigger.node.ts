@@ -7,6 +7,7 @@ import type {
 	IWebhookFunctions,
 	IWebhookResponseData,
 } from 'n8n-workflow';
+import { NodeConnectionTypes } from 'n8n-workflow';
 
 const WEBHOOK_EVENTS = [
 	{ name: 'Campaign Email Sent', value: 'campaign.email.sent' },
@@ -62,8 +63,7 @@ export class LoopsTrigger implements INodeType {
 		description: 'Starts the workflow when Loops sends a webhook event',
 		defaults: { name: 'Loops Trigger' },
 		inputs: [],
-		outputs: ['main'],
-		usableAsTool: true,
+		outputs: [NodeConnectionTypes.Main],
 		credentials: [{ name: 'loopsWebhookApi', required: true }],
 		webhooks: [
 			{
@@ -124,7 +124,8 @@ export class LoopsTrigger implements INodeType {
 				return { webhookResponse: { status: 401, body: 'Missing signature headers' } };
 			}
 
-			if (!verifySignature(signingSecret, signature, id, timestamp, JSON.stringify(body))) {
+			const rawBody = req.rawBody?.toString() ?? JSON.stringify(body);
+			if (!verifySignature(signingSecret, signature, id, timestamp, rawBody)) {
 				return { webhookResponse: { status: 401, body: 'Invalid signature' } };
 			}
 		}

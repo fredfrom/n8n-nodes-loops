@@ -1,5 +1,4 @@
 import type {
-	ICredentialTestRequest,
 	ICredentialType,
 	INodeProperties,
 } from 'n8n-workflow';
@@ -25,12 +24,4 @@ export class LoopsWebhookApi implements ICredentialType {
 		},
 	];
 
-	test: ICredentialTestRequest = {
-		request: {
-			baseURL: 'https://app.loops.so',
-			url: '/',
-			method: 'HEAD',
-			skipSslCertificateValidation: false,
-		},
-	};
 }
