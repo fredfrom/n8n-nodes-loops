@@ -1,7 +1,11 @@
 import { createHmac } from 'crypto';
 import type {
+	ICredentialTestFunctions,
+	ICredentialsDecrypted,
+	ICredentialDataDecryptedObject,
 	IDataObject,
 	IHookFunctions,
+	INodeCredentialTestResult,
 	INodeType,
 	INodeTypeDescription,
 	IWebhookFunctions,
@@ -64,8 +68,8 @@ export class LoopsTrigger implements INodeType {
 		defaults: { name: 'Loops Trigger' },
 		inputs: [],
 		outputs: [NodeConnectionTypes.Main],
-		usableAsTool: false,
-		credentials: [{ name: 'loopsWebhookApi', required: true }],
+		usableAsTool: true,
+		credentials: [{ name: 'loopsWebhookApi', required: true, testedBy: 'loopsWebhookApiTest' }],
 		webhooks: [
 			{
 				name: 'default',
@@ -94,6 +98,33 @@ export class LoopsTrigger implements INodeType {
 				default: '',
 			},
 		],
+	};
+
+	methods = {
+		credentialTest: {
+			async loopsWebhookApiTest(
+				this: ICredentialTestFunctions,
+				credential: ICredentialsDecrypted<ICredentialDataDecryptedObject>,
+			): Promise<INodeCredentialTestResult> {
+				const signingSecret = (credential.data?.signingSecret as string) ?? '';
+				if (!signingSecret) {
+					return {
+						status: 'OK',
+						message: 'No signing secret configured (signature verification disabled)',
+					};
+				}
+				const stripped = signingSecret.replace(/^whsec_/, '');
+				try {
+					const buf = Buffer.from(stripped, 'base64');
+					if (buf.length === 0) {
+						return { status: 'Error', message: 'Signing secret is empty after base64 decoding' };
+					}
+					return { status: 'OK', message: 'Signing secret format is valid' };
+				} catch {
+					return { status: 'Error', message: 'Signing secret is not valid base64' };
+				}
+			},
+		},
 	};
 
 	webhookMethods = {

@@ -1,5 +1,4 @@
 import type {
-	ICredentialTestRequest,
 	ICredentialType,
 	INodeProperties,
 } from 'n8n-workflow';
@@ -21,16 +20,7 @@ export class LoopsWebhookApi implements ICredentialType {
 			typeOptions: { password: true },
 			default: '',
 			description:
-				'Webhook signing secret from the Loops dashboard (Settings \u2192 Webhooks). Leave empty to skip signature verification.',
+				'Webhook signing secret from the Loops dashboard (Settings → Webhooks). Leave empty to skip signature verification.',
 		},
 	];
-
-	test: ICredentialTestRequest = {
-		request: {
-			baseURL: 'https://app.loops.so',
-			url: '/',
-			method: 'HEAD',
-			skipSslCertificateValidation: false,
-		},
-	};
 }
