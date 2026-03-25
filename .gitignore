@@ -8,5 +8,6 @@ CLAUDE.md
 PROMPT.md
 .claude/
 .gsd/
+.firecrawl/
 test/setup-remote.sh
 test/docker-compose.yml
