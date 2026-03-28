@@ -213,7 +213,7 @@ export class Loops implements INodeType {
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-		description: 'Consume the Loops API',
+		description: 'Manage contacts, send events, and deliver transactional emails with Loops.so',
 		defaults: { name: 'Loops' },
 		inputs: [NodeConnectionTypes.Main],
 		outputs: [NodeConnectionTypes.Main],
