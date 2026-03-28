@@ -1,8 +1,15 @@
 # n8n-nodes-loops
 
+[![npm version](https://img.shields.io/npm/v/n8n-nodes-loops.svg)](https://www.npmjs.com/package/n8n-nodes-loops)
+[![n8n community node](https://img.shields.io/badge/n8n-community%20node-ff6d5a)](https://www.npmjs.com/package/n8n-nodes-loops)
+[![n8n reviewed](https://img.shields.io/badge/n8n-reviewed%20%26%20approved-brightgreen)](https://www.npmjs.com/package/n8n-nodes-loops)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 This is an n8n community node for [Loops](https://loops.so) — the email platform for modern SaaS. It lets you manage contacts, send events, deliver transactional emails, and receive webhooks directly from your n8n workflows.
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
+
+![Loops node in n8n](assets/loops-n8n.png)
 
 [Installation](#installation) · [Operations](#operations) · [Credentials](#credentials) · [Compatibility](#compatibility) · [Resources](#resources)
 
